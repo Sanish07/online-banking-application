@@ -50,7 +50,7 @@ public class AccountsServiceImpl implements IAccountsService {
 
     /**
      * @param customer - Customer Object
-     * @return the new account details
+     * @return The new account details
      */
     private Accounts createNewAccount(Customer customer) { //Private account creation method
         Accounts newAccount = new Accounts();
@@ -69,7 +69,7 @@ public class AccountsServiceImpl implements IAccountsService {
 
     /**
      * @param mobileNumber - String number
-     * @return customerDto type object
+     * @return CustomerDto type object
      */
     @Override
     public CustomerDto fetchAccount(String mobileNumber) {
@@ -87,6 +87,10 @@ public class AccountsServiceImpl implements IAccountsService {
         return customerDto;
     }
 
+    /**
+     * @param customerDto - CustomerDto object
+     * @return Boolean value indicating if customer account details were updated
+     */
     @Override
     public boolean updateAccount(CustomerDto customerDto) {
         boolean isUpdated = false;
@@ -111,5 +115,20 @@ public class AccountsServiceImpl implements IAccountsService {
         return  isUpdated;
     }
 
+    /**
+     * @param mobileNumber - Input Customer mobile number
+     * @return Boolean value indicating if customer account was deleted or not
+     */
+    @Override
+    public boolean deleteAccount(String mobileNumber) {
+        Customer customer = customerRepository.findByMobileNumber(mobileNumber)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer", "mobileNumber", mobileNumber));
+        //Fetch customer by mobileNumber
+
+        accountsRepository.deleteByCustomerId(customer.getCustomerId()); //Delete account by Customer id
+        customerRepository.deleteById(customer.getCustomerId()); //Delete customer by Customer id
+
+        return true;
+    }
 
 }
