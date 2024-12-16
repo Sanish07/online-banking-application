@@ -39,8 +39,8 @@ public class AccountsServiceImpl implements IAccountsService {
             throw new CustomerAlreadyExistsException("Customer already registered with mobile number : "+customerDto.getMobileNumber());
         }
 
-        customer.setCreatedAt(LocalDateTime.now()); //Since created at, created by fields are not nullable
-        customer.setCreatedBy("Anonymous");
+//        customer.setCreatedAt(LocalDateTime.now()); //Since created at, created by fields are not nullable
+//        customer.setCreatedBy("Anonymous");
 
         Customer savedCustomer = customerRepository.save(customer); //Save new customer
 
@@ -60,9 +60,8 @@ public class AccountsServiceImpl implements IAccountsService {
         newAccount.setAccountNumber(randomAccNumber);
         newAccount.setAccountType(AccountsConstants.SAVINGS);
         newAccount.setBranchAddress(AccountsConstants.ADDRESS);
-        newAccount.setCreatedAt(LocalDateTime.now()); //Since created at, created by fields are not nullable
-        newAccount.setCreatedBy("Anonymous");
-
+//        newAccount.setCreatedAt(LocalDateTime.now()); //Since created at, created by fields are not nullable
+//        newAccount.setCreatedBy("Anonymous");
 
         return newAccount;
     }
