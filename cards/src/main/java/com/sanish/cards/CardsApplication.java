@@ -13,11 +13,12 @@ import java.util.Optional;
 @EnableJpaAuditing(auditorAwareRef = "auditorAwareImpl")
 @SpringBootApplication
 public class CardsApplication {
+
     public static void main(String[] args) {
         SpringApplication.run(CardsApplication.class, args);
     }
 
-    @Bean
+//    @Bean
     public CommandLineRunner commandLineRunner(CardsRepository cardsRepository) {
         return args -> {
             Cards cards = Cards.builder()
