@@ -7,9 +7,9 @@ import javax.smartcardio.Card;
 public interface ICardsService {
 
     /**
-     * @param cardsDto - CardsDto object
+     * @param mobileNumber - Input mobile number of customer
      */
-    void createCard(CardsDto cardsDto);
+    void createCard(String mobileNumber);
 
     /**
      * @param mobileNumber - Input mobile number of customer
