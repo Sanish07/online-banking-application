@@ -2,7 +2,6 @@ package com.sanish.cards.services;
 
 import com.sanish.cards.dto.CardsDto;
 
-import javax.smartcardio.Card;
 
 public interface ICardsService {
 
