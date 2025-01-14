@@ -7,6 +7,8 @@ import com.sanish.cards.services.ICardsService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +16,19 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Validated
-@AllArgsConstructor
 @RestController
 @RequestMapping(value = "/api", produces = {MediaType.APPLICATION_JSON_VALUE})
 public class CardsController {
 
-    private ICardsService cardsService;
+    private final ICardsService cardsService;
+
+    @Value("${build.version}")
+    private String buildVersion;
+
+    @Autowired
+    public CardsController(ICardsService cardsService) {
+        this.cardsService = cardsService;
+    }
 
     @PostMapping("/create")
     public ResponseEntity<ResponseDto> createNewCard(@RequestParam
@@ -74,5 +83,13 @@ public class CardsController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new ResponseDto(CardsConstants.STATUS_200, CardsConstants.MESSAGE_200));
+    }
+
+
+    @GetMapping("/build-info")
+    public ResponseEntity<String> getBuildInfo(){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(buildVersion);
     }
 }

@@ -17,3 +17,6 @@ spring:
 
 server:
   port: 8081
+
+build:
+  version: "3.0"
