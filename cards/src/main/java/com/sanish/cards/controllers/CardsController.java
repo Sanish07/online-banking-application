@@ -1,6 +1,7 @@
 package com.sanish.cards.controllers;
 
 import com.sanish.cards.constants.CardsConstants;
+import com.sanish.cards.dto.CardsContactInfoDto;
 import com.sanish.cards.dto.CardsDto;
 import com.sanish.cards.dto.ResponseDto;
 import com.sanish.cards.services.ICardsService;
@@ -9,6 +10,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +24,20 @@ public class CardsController {
 
     private final ICardsService cardsService;
 
+    private final Environment environment;
+
+    private final CardsContactInfoDto cardsContactInfoDto;
+
     @Value("${build.version}")
     private String buildVersion;
 
     @Autowired
-    public CardsController(ICardsService cardsService) {
+    public CardsController(ICardsService cardsService,
+                           Environment environment,
+                           CardsContactInfoDto cardsContactInfoDto) {
         this.cardsService = cardsService;
+        this.environment = environment;
+        this.cardsContactInfoDto = cardsContactInfoDto;
     }
 
     @PostMapping("/create")
@@ -91,5 +101,19 @@ public class CardsController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(buildVersion);
+    }
+
+    @GetMapping("/java-version")
+    public ResponseEntity<String> getJavaVersion(){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(environment.getProperty("java.version"));
+    }
+
+    @GetMapping("/contact-info")
+    public ResponseEntity<CardsContactInfoDto> getContactInfo(){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(cardsContactInfoDto);
     }
 }

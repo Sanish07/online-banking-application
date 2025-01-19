@@ -1,16 +1,19 @@
 package com.sanish.cards;
 
+import com.sanish.cards.dto.CardsContactInfoDto;
 import com.sanish.cards.entities.Cards;
 import com.sanish.cards.repositories.CardsRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.util.Optional;
 
 @EnableJpaAuditing(auditorAwareRef = "auditorAwareImpl")
+@EnableConfigurationProperties(value = {CardsContactInfoDto.class})
 @SpringBootApplication
 public class CardsApplication {
 

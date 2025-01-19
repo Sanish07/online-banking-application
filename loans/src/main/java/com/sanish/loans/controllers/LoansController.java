@@ -2,6 +2,7 @@ package com.sanish.loans.controllers;
 
 import com.sanish.loans.constants.LoansConstants;
 import com.sanish.loans.dto.ErrorResponseDto;
+import com.sanish.loans.dto.LoansContactInfoDto;
 import com.sanish.loans.dto.LoansDto;
 import com.sanish.loans.dto.ResponseDto;
 import com.sanish.loans.entities.Loans;
@@ -17,6 +18,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -34,12 +36,20 @@ public class LoansController {
 
     private final ILoansService loansService;
 
+    private final Environment environment;
+
+    private final LoansContactInfoDto loansContactInfoDto;
+
     @Value("${build.version}")
     private String buildVersion;
 
     @Autowired
-    public LoansController(ILoansService loansService) {
+    public LoansController(ILoansService loansService,
+                           Environment environment,
+                           LoansContactInfoDto loansContactInfoDto) {
         this.loansService = loansService;
+        this.environment = environment;
+        this.loansContactInfoDto = loansContactInfoDto;
     }
 
     @Operation(
@@ -199,5 +209,55 @@ public class LoansController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(buildVersion);
+    }
+
+    @Operation(
+            summary = "Get Java Version Information",
+            description = "REST API endpoint to fetch Java version used for microservice"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    }
+    )
+    @GetMapping("/java-version")
+    public ResponseEntity<String> getJavaVersion(){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(environment.getProperty("java.version"));
+    }
+
+    @Operation(
+            summary = "Get Contact Information",
+            description = "REST API endpoint to fetch Contact information of microservice developer"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    }
+    )
+    @GetMapping("/contact-info")
+    public ResponseEntity<LoansContactInfoDto> getContactInfo(){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(loansContactInfoDto);
     }
 }

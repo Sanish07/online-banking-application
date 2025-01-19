@@ -20,3 +20,12 @@ server:
 
 build:
   version: "3.0"
+
+loans:
+  message: "Welcome to Aerobank Loans REST API services"
+  contactDetails:
+    name: "Sanish - FS Developer"
+    email : "sanishnirwan@gmail.com"
+  onCallSupport:
+    - (555) 784-4552
+    - (555) 781-1651
