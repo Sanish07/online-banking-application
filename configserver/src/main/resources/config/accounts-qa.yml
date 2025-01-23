@@ -1,0 +1,11 @@
+build:
+  version: "2.0"
+
+accounts:
+  message: "Welcome to Aerobank Accounts REST API QA services"
+  contactDetails:
+    name: "Leo - QA Engineer"
+    email : "leo@gmail.com"
+  onCallSupport:
+    - (555) 751-5632
+    - (555) 712-3260

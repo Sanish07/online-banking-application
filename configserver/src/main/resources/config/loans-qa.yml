@@ -1,0 +1,11 @@
+build:
+  version: "2.0"
+
+loans:
+  message: "Welcome to Aerobank Loans REST API QA services"
+  contactDetails:
+    name: "Johann Suslov - QA Engineer"
+    email : "suslov15@gmail.com"
+  onCallSupport:
+    - (555) 187-2178
+    - (555) 183-0125

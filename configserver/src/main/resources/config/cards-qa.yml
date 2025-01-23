@@ -1,0 +1,11 @@
+build:
+  version: "2.0"
+
+cards:
+  message: "Welcome to Aerobank Cards REST API QA services"
+  contactDetails:
+    name: "Lizzy - QA Intern"
+    email : "lizzysheriff@gmail.com"
+  onCallSupport:
+    - (555) 728-7362
+    - (555) 723-1189

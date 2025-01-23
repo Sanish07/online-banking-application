@@ -1,0 +1,11 @@
+build:
+  version: "2.0"
+
+cards:
+  message: "Welcome to Aerobank Cards REST API Production services"
+  contactDetails:
+    name: "Thomas Alvarez - Production Lead"
+    email : "thomas.alvarez19@gmail.com"
+  onCallSupport:
+    - (555) 890-7123
+    - (555) 812-0181
