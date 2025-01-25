@@ -2,13 +2,24 @@ spring:
   application:
     name: "configserver"
   profiles:
-    active: native
+    active: git
+  #    active: native #For classpath and filesystem
   cloud:
     config:
       server:
-        native:
-           search-locations: "classpath:/config"
-           #search-locations: "file:///D://config" #Storing config in filesystem
+        git:
+          uri: "https://github.com/Sanish07/aerobank-config.git"
+          default-label: master
+          timeout: 5
+          clone-on-start: true
+          force-pull: true
+
+#        native:  #For classpath and filesystem
+#          search-locations: "classpath:/config"  #Storing config in classpath
+#          search-locations: "file:///D://config" #Storing config in filesystem
+
+encrypt:
+  key: "MLXGYB3YAE2OKL5F0TL2"
 
 server:
   port: 8084
