@@ -13,10 +13,20 @@ spring:
           timeout: 5
           clone-on-start: true
           force-pull: true
-
 #        native:  #For classpath and filesystem
 #          search-locations: "classpath:/config"  #Storing config in classpath
 #          search-locations: "file:///D://config" #Storing config in filesystem
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: "guest"
+    password: "guest"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 
 encrypt:
   key: "MLXGYB3YAE2OKL5F0TL2"
