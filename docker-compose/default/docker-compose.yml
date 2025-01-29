@@ -1,0 +1,67 @@
+services:
+  configserver:
+    image: "sanish07/configserver-aerobank:v4"
+    container_name: configserver-ms
+    ports:
+      - "8084:8084"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - aerobank
+
+  accounts:
+    image: "sanish07/accounts-aerobank:v4"
+    container_name: accounts-ms
+    ports:
+      - "8081:8081"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - aerobank
+    environment: #Referred from application.yml inside accounts microservice
+      SPRING_APPLICATION_NAME: "accounts"
+      SPRING_CONFIG_IMPORT: "configserver:http://configserver:8084/"
+      SPRING_PROFILES_ACTIVE: "default"
+
+  loans:
+    image: "sanish07/loans-aerobank:v4"
+    container_name: loans-ms
+    ports:
+      - "8082:8082"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - aerobank
+    environment: #Referred from application.yml inside loans microservice
+      SPRING_APPLICATION_NAME: "loans"
+      SPRING_CONFIG_IMPORT: "configserver:http://configserver:8084/"
+      SPRING_PROFILES_ACTIVE: "default"
+
+  cards:
+    image: "sanish07/cards-aerobank:v4"
+    container_name: cards-ms
+    ports:
+      - "8083:8083"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - aerobank
+    environment: #Referred from application.yml inside cards microservice
+      SPRING_APPLICATION_NAME: "cards"
+      SPRING_CONFIG_IMPORT: "configserver:http://configserver:8084/"
+      SPRING_PROFILES_ACTIVE: "default"
+
+networks:
+  aerobank:
+    driver: "bridge"
+
+#Adding services in same network will help services in that network to communicate with each
+#other via service names
