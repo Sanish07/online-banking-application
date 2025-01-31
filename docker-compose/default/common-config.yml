@@ -1,7 +1,7 @@
 services:
   network-deploy-service:  #Common For all ms. extension in this file
     networks:
-      - eazybank
+      - aerobank
 
   microservice-base-config: #For configserver only
     extends:
