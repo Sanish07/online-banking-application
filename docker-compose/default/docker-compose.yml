@@ -1,67 +1,80 @@
 services:
+  rabbit:
+    image: rabbitmq:4.0-management
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
+
   configserver:
     image: "sanish07/configserver-aerobank:v4"
     container_name: configserver-ms
     ports:
       - "8084:8084"
-    deploy:
-      resources:
-        limits:
-          memory: 700m
-    networks:
-      - aerobank
+    depends_on:
+      rabbit:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --fail --silent localhost:8084/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    extends:
+      file: common-config.yml
+      service: microservice-base-config
 
   accounts:
     image: "sanish07/accounts-aerobank:v4"
     container_name: accounts-ms
     ports:
       - "8081:8081"
-    deploy:
-      resources:
-        limits:
-          memory: 700m
-    networks:
-      - aerobank
-    environment: #Referred from application.yml inside accounts microservice
+    depends_on:
+      configserver:
+        condition: service_healthy
+    environment:
       SPRING_APPLICATION_NAME: "accounts"
-      SPRING_CONFIG_IMPORT: "configserver:http://configserver:8084/"
-      SPRING_PROFILES_ACTIVE: "default"
+    extends:
+      file: common-config.yml
+      service: microservice-configserver-config
 
   loans:
     image: "sanish07/loans-aerobank:v4"
     container_name: loans-ms
     ports:
       - "8082:8082"
-    deploy:
-      resources:
-        limits:
-          memory: 700m
-    networks:
-      - aerobank
-    environment: #Referred from application.yml inside loans microservice
+    depends_on:
+      configserver:
+        condition: service_healthy
+    environment:
       SPRING_APPLICATION_NAME: "loans"
-      SPRING_CONFIG_IMPORT: "configserver:http://configserver:8084/"
-      SPRING_PROFILES_ACTIVE: "default"
+    extends:
+      file: common-config.yml
+      service: microservice-configserver-config
 
   cards:
     image: "sanish07/cards-aerobank:v4"
     container_name: cards-ms
     ports:
       - "8083:8083"
-    deploy:
-      resources:
-        limits:
-          memory: 700m
-    networks:
-      - aerobank
-    environment: #Referred from application.yml inside cards microservice
+    depends_on:
+      configserver:
+        condition: service_healthy
+    environment:
       SPRING_APPLICATION_NAME: "cards"
-      SPRING_CONFIG_IMPORT: "configserver:http://configserver:8084/"
-      SPRING_PROFILES_ACTIVE: "default"
+    extends:
+      file: common-config.yml
+      service: microservice-configserver-config
 
 networks:
-  aerobank:
+  eazybank:
     driver: "bridge"
-
-#Adding services in same network will help services in that network to communicate with each
-#other via service names
