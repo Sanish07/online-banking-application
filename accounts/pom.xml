@@ -119,7 +119,7 @@
 						<image>eclipse-temurin:21-jre</image> <!--Mention docker java version image explicitly-->
 					</from>
 					<to>
-						<image>sanish07/accounts-aerobank:v3</image>
+						<image>sanish07/accounts-aerobank:v4</image>
 					</to>
 				</configuration>
 			</plugin>
