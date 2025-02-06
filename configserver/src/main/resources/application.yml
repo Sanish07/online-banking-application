@@ -16,11 +16,6 @@ spring:
 #        native:  #For classpath and filesystem
 #          search-locations: "classpath:/config"  #Storing config in classpath
 #          search-locations: "file:///D://config" #Storing config in filesystem
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: "guest"
-    password: "guest"
 
 management:
   endpoints:
