@@ -2,18 +2,17 @@ spring:
   application:
        name: cards
   datasource:
-    url: jdbc:h2:mem:cardsdb
-    driver-class-name: org.h2.Driver
-    username: sanish
-    password: sanish
+    url: jdbc:mysql://localhost:3310/cardsdb
+    username: root
+    password: root
   h2:
     console:
       enabled: true
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
     show-sql: true
-    hibernate:
-      ddl-auto: update
+  sql:
+    init:
+      mode: always
   config:
     import: "optional:configserver:http://localhost:8084/"
   profiles:
